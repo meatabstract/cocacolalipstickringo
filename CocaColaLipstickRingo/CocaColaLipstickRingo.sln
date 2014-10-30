@@ -5,6 +5,7 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "algotracker", "http://local
 	ProjectSection(WebsiteProperties) = preProject
 		UseIISExpress = "true"
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.5"
+		ProjectReferences = "{dac90fb0-bdd0-4492-b255-5ae8803c154b}|CCLR.dll;"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_58715"
 		Debug.AspNetCompiler.PhysicalPath = "algotracker\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_58715\"
@@ -23,13 +24,22 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "algotracker", "http://local
 		DefaultWebSiteLanguage = "Visual C#"
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library", "Library\Library.csproj", "{DAC90FB0-BDD0-4492-B255-5AE8803C154B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{F9F35179-20B3-445C-8767-AF5B366BFCAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F9F35179-20B3-445C-8767-AF5B366BFCAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9F35179-20B3-445C-8767-AF5B366BFCAD}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9F35179-20B3-445C-8767-AF5B366BFCAD}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{DAC90FB0-BDD0-4492-B255-5AE8803C154B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DAC90FB0-BDD0-4492-B255-5AE8803C154B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DAC90FB0-BDD0-4492-B255-5AE8803C154B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DAC90FB0-BDD0-4492-B255-5AE8803C154B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

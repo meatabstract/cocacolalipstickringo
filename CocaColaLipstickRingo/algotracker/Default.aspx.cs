@@ -9,33 +9,9 @@ using System.Text;
 using System.Security.Cryptography;
 using System.Web.Script.Serialization;
 
+using CCLR.Objects;
 
 // Test 3
-
-public class marketresponse
-{
-	public bool success { get; set; }
-	public string message { get; set; }
-	public List<market> result { get; set; }
-}
-
-
-
-public class market
-{
-	public string MarketCurrency { get; set; }
-	public string BaseCurrency { get; set; }
-	public string MarketCurrencyLong { get; set; }
-	public string BaseCurrencyLong { get; set; }
-	public string MinTradeSize { get; set; }
-	public string MarketName { get; set; }
-	public string IsActive { get; set; }
-	public string Created { get; set; }
-	public string Notice { get; set; }
-	public string IsSponsored { get; set; }
-	public string LogoUrl { get; set; }
-
-}
 
 
 public partial class _Default : System.Web.UI.Page
@@ -88,12 +64,12 @@ $obj = json_decode($execResult);*/
 		RestResponse response = (RestResponse)client.Execute(request);
 		var content = response.Content; // raw content as string*/
 
-		marketresponse m_r = new JavaScriptSerializer().Deserialize<marketresponse>(content);
+		MarketResponse m_r = new JavaScriptSerializer().Deserialize<MarketResponse>(content);
 
 
 		int i = 0;
 		results.Text = "";
-		foreach (market m in m_r.result)
+		foreach (Market m in m_r.result)
 		{
 			theNow = DateTime.Now;
 			results.Text += "<br/>" + m.MarketName;
