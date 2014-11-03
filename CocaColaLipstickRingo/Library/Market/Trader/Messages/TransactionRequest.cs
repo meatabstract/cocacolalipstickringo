@@ -9,7 +9,8 @@ namespace CCLR.Market.Trader.Messages
 	public class TransactionRequest
 	{
 		public Decimal Quantity { get; set; }
-		public Currency TargetCurrency { get; set; }
-		public Currency SourceCurrency { get; set; }
+		public String TargetCurrencyCode { get; set; }
+		public String SourceCurrencyCode { get; set; }
+		public String Market { get; set; }
 	}
 }

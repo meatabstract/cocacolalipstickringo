@@ -39,9 +39,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Agent\IAgent.cs" />
+    <Compile Include="Market\Currency.cs" />
+    <Compile Include="Market\Source\IMarketSource.cs" />
+    <Compile Include="Market\Trader\Messages\TransactionRequest.cs" />
+    <Compile Include="Market\Trader\Messages\TransactionResponse.cs" />
+    <Compile Include="Market\Transaction.cs" />
     <Compile Include="Objects\Market.cs" />
     <Compile Include="Objects\MarketResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Market\Trader\IMarketTrader.cs" />
+    <Compile Include="Utils\Messages\ResponseBase.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

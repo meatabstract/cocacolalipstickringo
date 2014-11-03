@@ -28,11 +28,16 @@ namespace CCLR.Market
 		/// <summary>
 		/// The currency being used to buy the target currency
 		/// </summary>
-		public Currency SourceCurrency { get; set; }
+		public String SourceCurrencyCode { get; set; }
 
 		/// <summary>
 		/// The currency being bought
 		/// </summary>
-		public Currency TargetCurrency { get; set; }
+		public String TargetCurrencyCode { get; set; }
+
+		/// <summary>
+		/// The market on which these coins were traded
+		/// </summary>
+		public String Market { get; set; }
 	}
 }
