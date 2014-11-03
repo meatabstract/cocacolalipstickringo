@@ -39,5 +39,10 @@ namespace CCLR.Market
 		/// The market on which these coins were traded
 		/// </summary>
 		public String Market { get; set; }
+
+		/// <summary>
+		/// The time at which the transaction was made.
+		/// </summary>
+		public DateTime Time { get; set; }
 	}
 }

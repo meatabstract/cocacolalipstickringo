@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using CCLR.Market.Source;
+
 namespace CCLR.Analysis.Metrics
 {
 	/// <summary>
@@ -12,5 +14,6 @@ namespace CCLR.Analysis.Metrics
 	/// </summary>
 	public interface IAnalysisMetric
 	{
+		Int32 Evaluate(IMarketSource marketSource, String currencyCode, String marketCode);
 	}
 }
