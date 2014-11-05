@@ -8,10 +8,15 @@ using System.Web.UI.WebControls;
 using System.Text;
 using System.Security.Cryptography;
 using System.Web.Script.Serialization;
+using Tools.DataAccess;
+using System.Data.Common;
+using System.Data;
 
-using CCLR.Objects;
 
-// Test 3
+
+
+
+
 
 
 public partial class _Default : System.Web.UI.Page
@@ -40,67 +45,124 @@ $obj = json_decode($execResult);*/
 
 
 
-		var client = new RestClient("https://bittrex.com/api/v1.1/");
-		DateTime theNow = DateTime.Now;
+		//var client = new RestClient("https://bittrex.com/api/v1.1/");
+		//DateTime theNow = DateTime.Now;
 
-		string uri = "https://bittrex.com/api/v1.1/public/getmarkets?apikey=" + System.Configuration.ConfigurationManager.AppSettings["apikey"] + "&nonce=" + theNow.ToString();
-		string HashMajik = HashIt(uri);
+		//string uri = "https://bittrex.com/api/v1.1/public/getmarkets?apikey=" + System.Configuration.ConfigurationManager.AppSettings["apikey"] + "&nonce=" + theNow.ToString();
+		//string HashMajik = HashIt(uri);
 
 
+		//// client.Authenticator = new HttpBasicAuthenticator(username, password);
 
-		// client.Authenticator = new HttpBasicAuthenticator(username, password);
+		//var request = new RestRequest("public/getmarkets", Method.GET);
+		//request.AddParameter("apikey", System.Configuration.ConfigurationManager.AppSettings["apikey"]); // adds to POST or URL querystring based on Method
+		//request.AddParameter("nonce", theNow); // replaces matching token in request.Resource
 
-		var request = new RestRequest("public/getmarkets", Method.GET);
-		request.AddParameter("apikey", System.Configuration.ConfigurationManager.AppSettings["apikey"]); // adds to POST or URL querystring based on Method
-		request.AddParameter("nonce", theNow); // replaces matching token in request.Resource
-
-		// easily add HTTP Headers
-		request.AddHeader("apisign", HashMajik);
+		//// easily add HTTP Headers
+		//request.AddHeader("apisign", HashMajik);
 
 		// add files to upload (works with compatible verbs)
 
 
 		// execute the request
-		RestResponse response = (RestResponse)client.Execute(request);
-		var content = response.Content; // raw content as string*/
+		//RestResponse response = (RestResponse)client.Execute(request);
+		//var content = response.Content; // raw content as string*/
 
-		MarketResponse m_r = new JavaScriptSerializer().Deserialize<MarketResponse>(content);
+		//marketresponse m_r = new JavaScriptSerializer().Deserialize<marketresponse>(content);
+
+
+		marketresponse m_r = MarketTools.GetMarkets();
+
+
+
+		DAL Dal = Tools.DataAccess.Utils.GetDAL();
+		DAL.Parameters Params = new DAL.Parameters(Dal.ProviderFactory);
+		int m_id = 0;
 
 
 		int i = 0;
 		results.Text = "";
-		foreach (Market m in m_r.result)
+		foreach (market m in m_r.result)
 		{
-			theNow = DateTime.Now;
-			results.Text += "<br/>" + m.MarketName;
+
+			Params.Clear();
+			Params.Add("pname", m.MarketName);
+			Params.Add("pkey", m.MarketName.ToUpper());
+
+			Dal.ExecNonQuery("Market_Save", CommandType.StoredProcedure, Params);
+
+			Params.Clear();
+			Params.Add("pkey", m.MarketName.ToUpper());
+
+			DbDataReader dr = Dal.ExecDataReader("Market_getOnKey", CommandType.StoredProcedure, Params);
+			//TODO: Fix
+			if (dr.Read())
+			{
+				//results.Text += dr.FieldCount + " - > " + dr[0].ToString() + "< - ";
+
+
+				m_id = Convert.ToInt32(dr["uniqueId"].ToString());
+			}
+
+			dr.Close();
+
+			//return the id
+			//theNow = DateTime.Now;
+			results.Text += m_id.ToString() + " " + m.MarketName + "<br/>";
 
 			//https://bittrex.com/api/v1.1/public/getmarkethistory?market=
 
-			uri = "https://bittrex.com/api/v1.1/public/getmarkethistory?market=" + m.MarketName + "&apikey=" + System.Configuration.ConfigurationManager.AppSettings["apikey"] + "&nonce=" + theNow.ToString();
-			HashMajik = HashIt(uri);
+			//uri = "https://bittrex.com/api/v1.1/public/getmarkethistory?market=" + m.MarketName + "&apikey=" + System.Configuration.ConfigurationManager.AppSettings["apikey"] + "&nonce=" + theNow.ToString();
+			//HashMajik = HashIt(uri);
 
-			request = new RestRequest("public/getmarkethistory", Method.GET);
-			request.AddParameter("apikey", System.Configuration.ConfigurationManager.AppSettings["apikey"]); // adds to POST or URL querystring based on Method
-			request.AddParameter("nonce", theNow); // replaces matching token in request.Resource
-			request.AddParameter("market", m.MarketName); // replaces matching token in request.Resource
+			//request = new RestRequest("public/getmarkethistory", Method.GET);
+			//request.AddParameter("apikey", System.Configuration.ConfigurationManager.AppSettings["apikey"]); // adds to POST or URL querystring based on Method
+			//request.AddParameter("nonce", theNow); // replaces matching token in request.Resource
+			//request.AddParameter("market", m.MarketName); // replaces matching token in request.Resource
 
-			// easily add HTTP Headers
-			request.AddHeader("apisign", HashMajik);
-
-
-			// easily add HTTP Headers
-			request.AddHeader("apisign", HashMajik);
-			response = (RestResponse)client.Execute(request);
-			content = response.Content; // raw content as string*/
-			results.Text += "<br/>" + content;
-
-			i++;
+			//// easily add HTTP Headers
+			//request.AddHeader("apisign", HashMajik);
 
 
-			if (i > 10) return;
+			//// easily add HTTP Headers
+			//request.AddHeader("apisign", HashMajik);
+			//response = (RestResponse)client.Execute(request);
+			//content = response.Content; // raw content as string*/
+			//markethistoryresponse mh_r = new JavaScriptSerializer().Deserialize<markethistoryresponse>(content);
+
+			markethistoryresponse mh_r = MarketTools.GetMarketHistory(m.MarketName);
+
+
+
+
+			if (mh_r.success && m_id > 0)
+			{
+
+				foreach (markethistory mh in mh_r.result)
+				{
+					//Trade_Save
+					Params.Clear();
+					Params.Add("pmarket", m_id);
+					Params.Add("ptradtype", mh.OrderType);
+					Params.Add("pprice", mh.Price);
+					Params.Add("pqty", mh.Quantity);
+					Params.Add("pkey", mh.Total);
+					Params.Add("pfiltype", mh.FillType);
+
+					Dal.ExecNonQuery("Trade_Save", CommandType.StoredProcedure, Params);
+				}
+			}
+
+			//i++;
+
+
+
 
 
 		}
+
+
+		Dal.Dispose();
 
 
 
@@ -113,24 +175,6 @@ $obj = json_decode($execResult);*/
 
 	}
 
-
-	protected string HashIt(string message)
-	{
-		var keyByte = encoding.GetBytes(System.Configuration.ConfigurationManager.AppSettings["apisecret"]);
-		using (var hmacsha256 = new HMACSHA256(keyByte))
-		{
-			hmacsha256.ComputeHash(encoding.GetBytes(message));
-
-			return ByteToString(hmacsha256.Hash);
-		}
-	}
-	protected string ByteToString(byte[] buff)
-	{
-		string sbinary = "";
-		for (int i = 0; i < buff.Length; i++)
-			sbinary += buff[i].ToString("X2"); /* hex format */
-		return sbinary;
-	}
 
 
 
