@@ -10,6 +10,7 @@ using System.Web.Script.Serialization;
 
 public enum OrderType { UNKNOWN = 0, BUY = 1, SELL = 2 }
 public enum FillType { UNKNOWN = 0, FILL = 1, PARTIAL_FILL = 2 }
+
 public class markethistory
 {
 
