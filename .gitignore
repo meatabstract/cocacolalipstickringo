@@ -1,3 +1,10 @@
+# Project obj and bin folders
+CocaColaLipstickRingo\algotracker\Bin
+CocaColaLipstickRingo\algotracker\Obj
+CocaColaLipstickRingo\Library\Bin
+CocaColaLipstickRingo\Library\Obj
+CocaColaLipstickRingo\packages
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
