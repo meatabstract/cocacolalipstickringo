@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using CCLR.Market.Source;
 
-namespace CCLR.Analysis.Metrics
+namespace CCLR.Analysis.Metric
 {
 	/// <summary>
 	/// Defines an interface for a class that represents as a single numerical metric

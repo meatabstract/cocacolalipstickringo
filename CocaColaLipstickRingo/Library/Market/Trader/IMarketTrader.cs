@@ -18,13 +18,13 @@ namespace CCLR.Market.Trader
 		/// </summary>
 		/// <param name="coin"></param>
 		/// <returns></returns>
-		public Decimal RequestBalance(String coin);
+		Decimal RequestBalance(String coin);
 
 		/// <summary>
 		/// Request a transaction be made
 		/// </summary>
 		/// <param name="request">A transaction request describing the transaction to be made</param>
 		/// <returns>A transaction response detailing the success, error and/or warnings</returns>
-		public TransactionResponse RequestTransaction(TransactionRequest request);
+		TransactionResponse RequestTransaction(TransactionRequest request);
 	}
 }
